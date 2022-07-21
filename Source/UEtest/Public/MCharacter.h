@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "MCharacter.generated.h"
 
+class USpringArmComponent;
+class UCameraComponent;
+
 UCLASS()
 class UETEST_API AMCharacter : public ACharacter
 {
@@ -16,8 +19,15 @@ public:
 	AMCharacter();
 
 protected:
+	UPROPERTY(VisibleAnywhere)
+	USpringArmComponent* SpringArmComp;
+
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* CameraComp;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	void MoveForward(float X);
+	void MoveRight(float X);
 
 public:	
 	// Called every frame

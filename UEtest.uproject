@@ -30,5 +30,8 @@
 				"Linux"
 			]
 		}
+	],
+	"TargetPlatforms": [
+		"Windows"
 	]
 }
