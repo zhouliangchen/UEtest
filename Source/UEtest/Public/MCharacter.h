@@ -13,15 +13,16 @@ UCLASS()
 class UETEST_API AMCharacter : public ACharacter
 {
 	GENERATED_BODY()
+protected:
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> ProjectileClass;
 
 public:
 	// Sets default values for this character's properties
 	AMCharacter();
 
 protected:
-	UPROPERTY(EditAnywhere)
-	//TSubclassOf<AActor> ProjectileClass;
-	UClass* ProjectileClass;
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
 

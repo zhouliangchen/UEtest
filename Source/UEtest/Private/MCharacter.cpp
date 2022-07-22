@@ -51,10 +51,16 @@ void AMCharacter::MoveRight(float X)
 
 void AMCharacter::PrimaryAttack()
 {
-	FTransform SpawnTM(GetControlRotation(), GetActorLocation());
+	FVector RhandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+	FTransform SpawnTM(GetControlRotation(), RhandLocation);
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	GetWorld()->SpawnActor<UClass>(ProjectileClass, SpawnTM, SpawnParams);
+
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+	const FString message ("dasabi");
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *message);
+	constexpr float time = 3;
+	GEngine->AddOnScreenDebugMessage(-1, time, FColor::Cyan, message);
 }
 
 // Called every frame
