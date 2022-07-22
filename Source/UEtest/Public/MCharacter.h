@@ -19,6 +19,9 @@ public:
 	AMCharacter();
 
 protected:
+	UPROPERTY(EditAnywhere)
+	//TSubclassOf<AActor> ProjectileClass;
+	UClass* ProjectileClass;
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComp;
 
@@ -28,10 +31,12 @@ protected:
 	virtual void BeginPlay() override;
 	void MoveForward(float X);
 	void MoveRight(float X);
+	void PrimaryAttack();
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

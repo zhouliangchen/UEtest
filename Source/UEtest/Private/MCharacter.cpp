@@ -36,18 +36,25 @@ void AMCharacter::BeginPlay()
 
 void AMCharacter::MoveForward(float X)
 {
-	FRotator ControlRol = GetControlRotation();
-	ControlRol.Roll = 0.0f;
-	ControlRol.Pitch = 0.0f;
-	AddMovementInput(ControlRol.Vector(), X);
+	FRotator ControlRot = GetControlRotation();
+	ControlRot.Roll = 0.0f;
+	ControlRot.Pitch = 0.0f;
+	AddMovementInput(ControlRot.Vector(), X);
 }
 void AMCharacter::MoveRight(float X)
 {
-	FRotator ControlRol = GetControlRotation();
-	ControlRol.Roll = 0.0f;
-	ControlRol.Pitch = 0.0f;
+	FRotator ControlRot = GetControlRotation();
+	ControlRot.Roll = 0.0f;
+	ControlRot.Pitch = 0.0f;
+	AddMovementInput(FRotationMatrix(ControlRot).GetScaledAxis(EAxis::Y), X);
+}
 
-	AddMovementInput(UKismetMathLibrary::GetRightVector(ControlRol), X);
+void AMCharacter::PrimaryAttack()
+{
+	FTransform SpawnTM(GetControlRotation(), GetActorLocation());
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	GetWorld()->SpawnActor<UClass>(ProjectileClass, SpawnTM, SpawnParams);
 }
 
 // Called every frame
@@ -65,5 +72,7 @@ void AMCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+
+	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &AMCharacter::PrimaryAttack);
 }
 
