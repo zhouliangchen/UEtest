@@ -14,7 +14,9 @@ AMMagicProjectile::AMMagicProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 
 	RootComponent = SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
-	
+	SphereComp->SetCollisionObjectType(ECC_WorldDynamic);
+	SphereComp->SetCollisionProfileName("Projectile");
+
 	ParticleComp = CreateDefaultSubobject<UParticleSystemComponent>("ParticleComp");
 	ParticleComp->SetupAttachment(RootComponent);
 

@@ -7,7 +7,6 @@
 #include "GameFramework/SpringArmComponent.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AMCharacter::AMCharacter()
@@ -57,10 +56,8 @@ void AMCharacter::PrimaryAttack()
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
-	const FString message ("dasabi");
-	//UE_LOG(LogTemp, Warning, TEXT("%s"), *message);
-	constexpr float time = 3;
-	GEngine->AddOnScreenDebugMessage(-1, time, FColor::Cyan, message);
+
+	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Cyan, "biu~");
 }
 
 // Called every frame
@@ -78,7 +75,7 @@ void AMCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMCharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &AMCharacter::PrimaryAttack);
 }
 
