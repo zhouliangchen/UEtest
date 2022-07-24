@@ -22,6 +22,7 @@ AMExplosiveBarrel::AMExplosiveBarrel()
 	RadialForceComp->Radius = 750.0f;
 	RadialForceComp->Falloff = RIF_Linear;//径向力衰减
 	RadialForceComp->SetAutoActivate(false);//如果不关，那么一开始就会有径向力激活，下落很慢
+	RadialForceComp->AddCollisionChannelToAffect(ECC_WorldDynamic);
 	StaticMeshComp->OnComponentHit.AddUniqueDynamic(this, &AMExplosiveBarrel::OnCompHit);
 }
 

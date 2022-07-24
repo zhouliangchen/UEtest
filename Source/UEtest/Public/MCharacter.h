@@ -8,6 +8,7 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class UMInteractComponent;
 
 UCLASS()
 class UETEST_API AMCharacter : public ACharacter
@@ -28,6 +29,10 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComp;
+
+	UPROPERTY(VisibleAnywhere)
+	UMInteractComponent* InteractComp;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void MoveForward(float X);

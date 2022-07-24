@@ -3,6 +3,7 @@
 
 #include "MCharacter.h"
 
+#include "MInteractComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -20,6 +21,8 @@ AMCharacter::AMCharacter()
 
 	CameraComp = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComp->SetupAttachment(SpringArmComp);
+
+	InteractComp = CreateDefaultSubobject<UMInteractComponent>("InteractComp");
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
@@ -60,6 +63,7 @@ void AMCharacter::PrimaryAttack()
 	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Cyan, "biu~");
 }
 
+
 // Called every frame
 void AMCharacter::Tick(float DeltaTime)
 {
@@ -77,5 +81,6 @@ void AMCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMCharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &AMCharacter::PrimaryAttack);
+	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, InteractComp, &UMInteractComponent::PrimaryInteract);
 }
 
