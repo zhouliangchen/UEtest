@@ -25,7 +25,7 @@ AMCharacter::AMCharacter()
 	InteractComp = CreateDefaultSubobject<UMInteractComponent>("InteractComp");
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-
+	AttackTime = 0.2f;
 	bUseControllerRotationYaw = false;
 }
 
@@ -52,6 +52,12 @@ void AMCharacter::MoveRight(float X)
 }
 
 void AMCharacter::PrimaryAttack()
+{
+	PlayAnimMontage(AnimAttack);
+	GetWorldTimerManager().SetTimer(AttackTimeHandle, this, &AMCharacter::PrimaryAttack_delay, AttackTime, false);
+}
+
+void AMCharacter::PrimaryAttack_delay()
 {
 	FVector RhandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 	FTransform SpawnTM(GetControlRotation(), RhandLocation);

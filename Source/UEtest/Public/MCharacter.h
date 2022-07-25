@@ -15,9 +15,15 @@ class UETEST_API AMCharacter : public ACharacter
 {
 	GENERATED_BODY()
 protected:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,Category="Attack")
 	TSubclassOf<AActor> ProjectileClass;
 
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	UAnimMontage* AnimAttack;
+
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	float AttackTime;
+	FTimerHandle AttackTimeHandle;
 public:
 	// Sets default values for this character's properties
 	AMCharacter();
@@ -38,6 +44,7 @@ protected:
 	void MoveForward(float X);
 	void MoveRight(float X);
 	void PrimaryAttack();
+	void PrimaryAttack_delay();
 
 public:	
 	// Called every frame
