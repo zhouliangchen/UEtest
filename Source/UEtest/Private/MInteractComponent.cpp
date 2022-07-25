@@ -2,8 +2,8 @@
 
 
 #include "MInteractComponent.h"
-
 #include "MGameplayInterface.h"
+#include "MItemChest.h"
 
 // Sets default values for this component's properties
 UMInteractComponent::UMInteractComponent()
@@ -21,20 +21,32 @@ void UMInteractComponent::PrimaryInteract()
 	FRotator Rot;
 	AActor* MyActor = GetOwner();
 	MyActor->GetActorEyesViewPoint(Start, Rot);
-	FVector End = Start + Rot.Vector() * 1000;
-	FHitResult HitResult;
+	FVector End = Start + Rot.Vector() * 500;
+	
 	//FCollisionObjectQueryParams ObjectParams(ECC_WorldDynamic);
 	//ObjectParams.AddObjectTypesToQuery()
-	GetWorld()->LineTraceSingleByObjectType(HitResult, Start, End, ECC_WorldDynamic);
-	if(AActor* HitActor = HitResult.GetActor())
+	//
+	FHitResult HitResult;
+	// bool bHit = GetWorld()->LineTraceSingleByObjectType(HitResult, Start, End, ECC_WorldDynamic);
+	constexpr float Radius = 30.0f;
+	//TArray<FHitResult> HitResults;
+	FCollisionShape Shape;
+	Shape.SetSphere(Radius);
+
+	bool bHit = GetWorld()->SweepSingleByObjectType(HitResult, Start, End, FQuat::Identity, ECC_WorldDynamic, Shape);
+	const FColor DebugColor = bHit ? FColor::Green : FColor::Red;
+	if(bHit)
 	{
+		AActor* HitActor = HitResult.GetActor();
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Orange, "HitActor: " + HitActor->GetActorNameOrLabel());
 		if (HitActor->Implements<UMGameplayInterface>())
 		{
 			APawn* MyPawn = Cast<APawn>(MyActor);
 			IMGameplayInterface::Execute_Interact(HitActor, MyPawn);
 		}
+		DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, Radius, 16, DebugColor, false, 2.0, 0, 2.0);
 	}
-	
+	DrawDebugLine(GetWorld(), Start, bHit ? HitResult.ImpactPoint : End, DebugColor, false, 2.0, 0, 2.0);
 }
 
 

@@ -16,6 +16,7 @@ AMItemChest::AMItemChest():RotationPitch(110.0)
 void AMItemChest::Interact_Implementation(APawn* InstigatorPawn)
 {
 	LidMesh->SetRelativeRotation(FRotator(RotationPitch, 0, 0));
+	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Orange, "Chest has been opened!");
 }
 
 // Called when the game starts or when spawned
