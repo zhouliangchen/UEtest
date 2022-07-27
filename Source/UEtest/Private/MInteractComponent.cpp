@@ -38,7 +38,7 @@ void UMInteractComponent::PrimaryInteract()
 	if(bHit)
 	{
 		AActor* HitActor = HitResult.GetActor();
-		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Orange, "HitActor: " + HitActor->GetActorNameOrLabel());
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Orange, "HitActor: " + GetNameSafe(HitActor));
 		if (HitActor->Implements<UMGameplayInterface>())
 		{
 			APawn* MyPawn = Cast<APawn>(MyActor);

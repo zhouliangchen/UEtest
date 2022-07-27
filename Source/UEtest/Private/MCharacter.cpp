@@ -63,7 +63,7 @@ void AMCharacter::PrimaryAttack_delay()
 	FTransform SpawnTM(GetControlRotation(), RhandLocation);
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
+	SpawnParams.Instigator = this;
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
 
 	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Cyan, "biu~");
