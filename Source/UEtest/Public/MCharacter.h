@@ -23,6 +23,13 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	float AttackTime;
+
+	UPROPERTY(EditAnywhere, Category = "Skill")
+	TSubclassOf<AActor> BlackholeClass;
+
+	UPROPERTY(EditAnywhere, Category = "Skill")
+	UAnimMontage* AnimBlackholeAttack;
+
 	FTimerHandle AttackTimeHandle;
 public:
 	// Sets default values for this character's properties
@@ -45,6 +52,7 @@ protected:
 	void MoveRight(float X);
 	void PrimaryAttack();
 	void PrimaryAttack_delay();
+	void BlackholeAttack();
 
 public:	
 	// Called every frame

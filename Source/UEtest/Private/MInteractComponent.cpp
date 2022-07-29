@@ -3,7 +3,7 @@
 
 #include "MInteractComponent.h"
 #include "MGameplayInterface.h"
-#include "MItemChest.h"
+#include "GameFramework/GameSession.h"
 
 // Sets default values for this component's properties
 UMInteractComponent::UMInteractComponent()
@@ -17,10 +17,12 @@ UMInteractComponent::UMInteractComponent()
 
 void UMInteractComponent::PrimaryInteract()
 {
-	FVector Start;
-	FRotator Rot;
+	auto& CamManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
+	FVector Start = CamManager->GetCameraLocation();
+	FRotator Rot = CamManager->GetCameraRotation();
 	AActor* MyActor = GetOwner();
-	MyActor->GetActorEyesViewPoint(Start, Rot);
+	//MyActor->GetActorEyesViewPoint(Start, Rot);
+
 	FVector End = Start + Rot.Vector() * 500;
 	
 	//FCollisionObjectQueryParams ObjectParams(ECC_WorldDynamic);

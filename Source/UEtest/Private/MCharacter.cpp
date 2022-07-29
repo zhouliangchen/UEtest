@@ -2,11 +2,9 @@
 
 
 #include "MCharacter.h"
-
 #include "MInteractComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -59,14 +57,40 @@ void AMCharacter::PrimaryAttack()
 
 void AMCharacter::PrimaryAttack_delay()
 {
+	FVector CameraLocation = CameraComp->GetComponentLocation();
+	FVector End = CameraLocation + GetControlRotation().Vector() * 10000;
+	FHitResult HitResult;
+	bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, CameraLocation, End, ECC_WorldDynamic);
+	FVector TargetPoint = bHit ? HitResult.ImpactPoint : End;
 	FVector RhandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-	FTransform SpawnTM(GetControlRotation(), RhandLocation);
+	FVector SubVector = TargetPoint - RhandLocation;
+	//SubVector.Rotation()
+	//FRotator AimRotator(SubVector.X, SubVector.Y, SubVector.Z);
+	FTransform SpawnTM(SubVector.Rotation(), RhandLocation);
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParams.Instigator = this;
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
 
 	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Cyan, "biu~");
+}
+
+void AMCharacter::BlackholeAttack()
+{
+	PlayAnimMontage(AnimBlackholeAttack);
+	FVector CameraLocation = CameraComp->GetComponentLocation();
+	FVector End = CameraLocation + GetControlRotation().Vector() * 10000;
+	FHitResult HitResult;
+	bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, CameraLocation, End, ECC_WorldDynamic);
+	FVector TargetPoint = bHit ? HitResult.ImpactPoint : End;
+	FVector RhandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+	FVector SubVector = TargetPoint - RhandLocation;
+	FTransform SpawnTM(SubVector.Rotation(), RhandLocation);
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParams.Instigator = this;
+	GetWorld()->SpawnActor<AActor>(BlackholeClass, SpawnTM, SpawnParams);
+	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Cyan, "BlackholeGenerated");
 }
 
 
@@ -88,5 +112,6 @@ void AMCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMCharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &AMCharacter::PrimaryAttack);
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, InteractComp, &UMInteractComponent::PrimaryInteract);
+	PlayerInputComponent->BindAction("BlackholeAttack", IE_Pressed, this, &AMCharacter::BlackholeAttack);
 }
 
