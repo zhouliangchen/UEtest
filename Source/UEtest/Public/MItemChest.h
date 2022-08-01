@@ -16,7 +16,6 @@ public:
 	// Sets default values for this actor's properties
 	AMItemChest();
 
-	UPROPERTY(EditAnywhere)
 	float RotationPitch;
 
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;

@@ -11,7 +11,7 @@ class UProjectileMovementComponent;
 class UParticleSystemComponent;
 
 
-UCLASS()
+UCLASS(Abstract)
 class UETEST_API AMProjectileBase : public AActor
 {
 	GENERATED_BODY()
@@ -21,17 +21,24 @@ public:
 	AMProjectileBase();
 
 protected:
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Effect")
+	UParticleSystem* ImpactVFX;
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Components")
 	USphereComponent* SphereComp;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UProjectileMovementComponent* MovementComp;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UParticleSystemComponent* ParticleComp;
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
+	UFUNCTION()
+	virtual void ProjectileHit(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1,
+				   FVector Vector, const FHitResult& HitResult);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void Explode();
+	//默认实现：在目标点生成粒子效果并析构自己
+	virtual void Explode_Implementation();
+	virtual void PostInitializeComponents() override;
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 };

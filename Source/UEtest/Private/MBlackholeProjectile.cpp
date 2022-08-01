@@ -8,13 +8,13 @@
 
 AMBlackholeProjectile::AMBlackholeProjectile()
 {
-	MovementComp->InitialSpeed= 800.0f;
-	MovementComp->ProjectileGravityScale = 0.0f;
+	MovementComp->InitialSpeed= 2000.0f;
+	SphereComp->SetSphereRadius(55.0f);
 	RadialForceComp = CreateDefaultSubobject<URadialForceComponent>("RadialForceComp");
 	RadialForceComp->SetupAttachment(SphereComp);
-	RadialForceComp->Radius = 10000.0f;
+	RadialForceComp->Radius = 1000.0f;
 	RadialForceComp->Falloff = RIF_Linear;
-	RadialForceComp->ForceStrength = 2000000000.0f;
+	RadialForceComp->ForceStrength = 2000000.0f;
 	RadialForceComp->bIgnoreOwningActor = true;
 	RadialForceComp->AddCollisionChannelToAffect(ECC_WorldDynamic);
 }

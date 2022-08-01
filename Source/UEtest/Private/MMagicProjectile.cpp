@@ -2,28 +2,12 @@
 
 
 #include "MMagicProjectile.h"
+
 #include "GameFramework/ProjectileMovementComponent.h"
 
 // Sets default values
 AMMagicProjectile::AMMagicProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-	MovementComp->InitialSpeed = 1000.0f;
-	MovementComp->ProjectileGravityScale = 0.0f;
+    //MovementComp->InitialSpeed = 4000.0f;
 }
-
-// Called when the game starts or when spawned
-void AMMagicProjectile::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void AMMagicProjectile::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-

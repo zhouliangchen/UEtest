@@ -9,6 +9,7 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UMInteractComponent;
+class AMProjectileBase;
 
 UCLASS()
 class UETEST_API AMCharacter : public ACharacter
@@ -16,21 +17,22 @@ class UETEST_API AMCharacter : public ACharacter
 	GENERATED_BODY()
 protected:
 	UPROPERTY(EditAnywhere,Category="Attack")
-	TSubclassOf<AActor> ProjectileClass;
+	TSubclassOf<AMProjectileBase> ProjectileClass;
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AMProjectileBase> BlackholeClass;
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AMProjectileBase> TeleportClass;
+
 
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	UAnimMontage* AnimAttack;
 
 	UPROPERTY(EditAnywhere, Category = "Attack")
-	float AttackTime;
+	float AttackDelay;
 
-	UPROPERTY(EditAnywhere, Category = "Skill")
-	TSubclassOf<AActor> BlackholeClass;
-
-	UPROPERTY(EditAnywhere, Category = "Skill")
-	UAnimMontage* AnimBlackholeAttack;
-
-	FTimerHandle AttackTimeHandle;
+	FTimerHandle PrimaryAttackTimeHandle;
+	FTimerHandle BlackholeTimeHandle;
+	FTimerHandle TeleportTimeHandle;
 public:
 	// Sets default values for this character's properties
 	AMCharacter();
@@ -46,18 +48,17 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UMInteractComponent* InteractComp;
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 	void MoveForward(float X);
 	void MoveRight(float X);
 	void PrimaryAttack();
 	void PrimaryAttack_delay();
 	void BlackholeAttack();
+	void BlackholeAttack_delay();
+	void Teleport();
+	void Teleport_delay();
+	void SpawnProjectile(TSubclassOf<AMProjectileBase> Projectile);
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
