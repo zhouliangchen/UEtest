@@ -11,8 +11,11 @@ class UETEST_API AMMagicProjectile : public AMProjectileBase
 {
 	GENERATED_BODY()
 	
-public:	
+public:
 	// Sets default values for this actor's properties
 	AMMagicProjectile();
-
+protected:
+	UFUNCTION()
+	void DealDamage(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int Index, bool bArg, const FHitResult& HitResult);
+	
 };

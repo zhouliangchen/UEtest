@@ -10,6 +10,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UMInteractComponent;
 class AMProjectileBase;
+class UMAttributeComponent;
 
 UCLASS()
 class UETEST_API AMCharacter : public ACharacter
@@ -47,6 +48,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	UMInteractComponent* InteractComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UMAttributeComponent* AttributeComp;
 
 	void MoveForward(float X);
 	void MoveRight(float X);
