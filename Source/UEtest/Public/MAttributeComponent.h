@@ -20,6 +20,8 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Attributes")
 	float Health;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attributes")
+	float HealthMax;
 
 public:
 	UPROPERTY(BlueprintAssignable,Category="Attributes")
@@ -28,5 +30,7 @@ public:
 	//virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	bool ApplyHealthChange(float Delta);
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	bool IsAlive()const;
 		
 };

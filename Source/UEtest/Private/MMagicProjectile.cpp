@@ -7,6 +7,14 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
+// Sets default values
+AMMagicProjectile::AMMagicProjectile():Damage(-20.0f)
+{
+    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+    //MovementComp->InitialSpeed = 4000.0f;
+    SphereComp->OnComponentBeginOverlap.AddUniqueDynamic(this, &AMMagicProjectile::DealDamage);
+}
+
 void AMMagicProjectile::DealDamage(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int Index, bool bArg, const FHitResult& HitResult)
 {
@@ -15,17 +23,10 @@ void AMMagicProjectile::DealDamage(UPrimitiveComponent* PrimitiveComponent, AAct
         UMAttributeComponent* AttributeComp = Cast<UMAttributeComponent>(OtherActor->GetComponentByClass(UMAttributeComponent::StaticClass()));
         if(AttributeComp)
         {
-            AttributeComp->ApplyHealthChange(-20.0f);
+            AttributeComp->ApplyHealthChange(Damage);
             GEngine->AddOnScreenDebugMessage(INDEX_NONE, 3.0f, FColor::Blue, GetNameSafe(this) + " damage " + GetNameSafe(OtherActor));
             Destroy();
         }
     }
 }
 
-// Sets default values
-AMMagicProjectile::AMMagicProjectile()
-{
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-    //MovementComp->InitialSpeed = 4000.0f;
-    SphereComp->OnComponentBeginOverlap.AddUniqueDynamic(this, &AMMagicProjectile::DealDamage);
-}

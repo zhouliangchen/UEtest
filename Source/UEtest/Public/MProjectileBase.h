@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Sound/SoundCue.h"
 #include "MProjectileBase.generated.h"
 
 class USphereComponent;
 class UProjectileMovementComponent;
 class UParticleSystemComponent;
-
+class UAudioComponent;
 
 UCLASS(Abstract)
 class UETEST_API AMProjectileBase : public AActor
@@ -23,12 +24,18 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Effect")
 	UParticleSystem* ImpactVFX;
+	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	USoundCue* ImpactSound;
+
+
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Components")
 	USphereComponent* SphereComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UProjectileMovementComponent* MovementComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UParticleSystemComponent* ParticleComp;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UAudioComponent* AudioComp;
 
 	UFUNCTION()
 	virtual void ProjectileHit(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1,

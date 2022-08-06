@@ -17,5 +17,6 @@ public:
 protected:
 	UFUNCTION()
 	void DealDamage(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int Index, bool bArg, const FHitResult& HitResult);
-	
+	UPROPERTY(EditDefaultsOnly)
+	float Damage;
 };

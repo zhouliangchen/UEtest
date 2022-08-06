@@ -2,26 +2,27 @@
 
 
 #include "MHitFlashCube.h"
+#include "MAttributeComponent.h"
 
 // Sets default values
 AMHitFlashCube::AMHitFlashCube()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	RootComponent = MeshComp = CreateDefaultSubobject<UStaticMeshComponent>("MeshComp");
+	AttributeComp = CreateDefaultSubobject<UMAttributeComponent>("AttributeComp");
 }
 
-// Called when the game starts or when spawned
-void AMHitFlashCube::BeginPlay()
+
+void AMHitFlashCube::HitFlash(AActor* InstigatorActor, UMAttributeComponent* OwningComp, float NewHealth, float Delta)
 {
-	Super::BeginPlay();
-	
+	if(Delta<0.0f)
+	{
+		MeshComp->SetScalarParameterValueOnMaterials("TimeOnHit", GetWorld()->TimeSeconds);
+	}
 }
 
-// Called every frame
-void AMHitFlashCube::Tick(float DeltaTime)
+void AMHitFlashCube::PostInitializeComponents()
 {
-	Super::Tick(DeltaTime);
-
+	Super::PostInitializeComponents();
+	AttributeComp->OnHealthChanged.AddUniqueDynamic(this, &AMHitFlashCube::HitFlash);
 }
 

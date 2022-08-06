@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "MHitFlashCube.generated.h"
 
+class UMAttributeComponent;
 UCLASS()
 class UETEST_API AMHitFlashCube : public AActor
 {
@@ -16,11 +17,17 @@ public:
 	AMHitFlashCube();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UStaticMeshComponent* MeshComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UMAttributeComponent* AttributeComp;
+
+	UFUNCTION()
+	void HitFlash(AActor* InstigatorActor, UMAttributeComponent* OwningComp, float NewHealth, float Delta);
+	virtual	void PostInitializeComponents()override;
+
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+
 
 };

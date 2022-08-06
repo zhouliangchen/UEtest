@@ -34,6 +34,7 @@ protected:
 	FTimerHandle PrimaryAttackTimeHandle;
 	FTimerHandle BlackholeTimeHandle;
 	FTimerHandle TeleportTimeHandle;
+	bool bIsAlive;//为了更好地实现HitFlash判定逻辑
 public:
 	// Sets default values for this character's properties
 	AMCharacter();
@@ -61,7 +62,9 @@ protected:
 	void Teleport();
 	void Teleport_delay();
 	void SpawnProjectile(TSubclassOf<AMProjectileBase> Projectile);
-
+	UFUNCTION()
+	void OnHealthChanged(AActor* InstigatorActor, UMAttributeComponent* OwningComp, float NewHealth, float Delta);
+	virtual void PostInitializeComponents() override;
 public:
 
 	// Called to bind functionality to input

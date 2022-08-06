@@ -5,7 +5,7 @@
 
 
 // Sets default values for this component's properties
-UMAttributeComponent::UMAttributeComponent():Health(100.0f)
+UMAttributeComponent::UMAttributeComponent():Health(100.0f),HealthMax(100.0f)
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
@@ -23,8 +23,15 @@ UMAttributeComponent::UMAttributeComponent():Health(100.0f)
 
 bool UMAttributeComponent::ApplyHealthChange(float Delta)
 {
-	Health += Delta;
-	OnHealthChanged.Broadcast(nullptr, this, Health, Delta);
+	float NewHealth = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
+	OnHealthChanged.Broadcast(nullptr, this, NewHealth, NewHealth - Health);
+	Health = NewHealth;
+	//伤害弹窗应该在这添加
 	return true;
+}
+
+bool UMAttributeComponent::IsAlive()const
+{
+	return Health > 0.0f;
 }
 
