@@ -35,3 +35,9 @@ bool UMAttributeComponent::IsAlive()const
 	return Health > 0.0f;
 }
 
+bool UMAttributeComponent::IsFullHealth() const
+{
+	//目前还没有出现小数位上的变动，所以直接以==比较浮点数
+	return Health == HealthMax;
+}
+

@@ -31,6 +31,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	float AttackDelay;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	UParticleSystem* SpellVFX;
+
 	FTimerHandle PrimaryAttackTimeHandle;
 	FTimerHandle BlackholeTimeHandle;
 	FTimerHandle TeleportTimeHandle;

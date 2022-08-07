@@ -50,6 +50,7 @@ void AMProjectileBase::Explode_Implementation()
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(this, ImpactVFX, GetActorLocation(), GetActorRotation());
 		UGameplayStatics::SpawnSoundAtLocation(this, ImpactSound, GetActorLocation(), GetActorRotation());
+		UGameplayStatics::PlayWorldCameraShake(this, Shake, GetActorLocation(), 200.0f, 2000.0f);
 		Destroy();
 	}
 }

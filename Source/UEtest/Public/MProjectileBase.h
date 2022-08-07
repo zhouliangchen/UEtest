@@ -26,8 +26,8 @@ protected:
 	UParticleSystem* ImpactVFX;
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
 	USoundCue* ImpactSound;
-
-
+	UPROPERTY(EditDefaultsOnly, Category = "Effect")
+	TSubclassOf<UCameraShakeBase> Shake;
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Components")
 	USphereComponent* SphereComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
