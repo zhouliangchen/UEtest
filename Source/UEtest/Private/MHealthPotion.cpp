@@ -15,9 +15,10 @@ bool AMHealthPotion::DoSthtoPawn_Implementation(APawn* InstigatorPawn)
 		UMAttributeComponent* AttributeComp = Cast<UMAttributeComponent>(InstigatorPawn->GetComponentByClass(UMAttributeComponent::StaticClass()));
 		if(AttributeComp)
 		{
-			if(!AttributeComp->IsFullHealth()&&AttributeComp->IsAlive())
+			//可以省略的检查
+			//if(!AttributeComp->IsFullHealth()&&AttributeComp->IsAlive())
+			if(AttributeComp->ApplyHealthChange(PowerUpNumber))
 			{
-				AttributeComp->ApplyHealthChange(PowerUpNumber);
 				return true;
 			}
 		}

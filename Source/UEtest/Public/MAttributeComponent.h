@@ -18,9 +18,9 @@ public:
 	UMAttributeComponent();
 
 protected:
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Attributes")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Attributes")
 	float Health;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
 	float HealthMax;
 
 public:
@@ -34,5 +34,5 @@ public:
 	bool IsAlive()const;
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	bool IsFullHealth()const;
-
+	float GetHealthMax()const;
 };

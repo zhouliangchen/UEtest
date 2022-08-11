@@ -7,7 +7,7 @@
 AMPickupItemBase::AMPickupItemBase():CoolDownTime(10.0f)
 {
 	RootComponent = MeshComp = CreateDefaultSubobject<UStaticMeshComponent>("MeshComp");
-
+	MeshComp->SetCollisionProfileName("PickupItem");
 }
 
 void AMPickupItemBase::Interact_Implementation(APawn* InstigatorPawn)

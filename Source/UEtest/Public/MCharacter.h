@@ -37,7 +37,15 @@ protected:
 	FTimerHandle PrimaryAttackTimeHandle;
 	FTimerHandle BlackholeTimeHandle;
 	FTimerHandle TeleportTimeHandle;
-	bool bIsAlive;//为了更好地实现HitFlash判定逻辑
+
+	//为了更好地实现HitFlash判定逻辑
+	//更新MAttributeComponent后已不再需要，可考虑弃用，目前仅作debug用途
+	bool bIsAlive;
+
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	FName HandSocket;
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	FName HitTimeParam;
 public:
 	// Sets default values for this character's properties
 	AMCharacter();

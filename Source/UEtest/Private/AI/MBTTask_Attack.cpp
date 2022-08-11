@@ -4,6 +4,7 @@
 #include "AI/MBTTask_Attack.h"
 
 #include "AIController.h"
+#include "AI/MAICharacter.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/Character.h"
 
@@ -14,9 +15,9 @@ EBTNodeResult::Type UMBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 	AAIController* Controller = OwnerComp.GetAIOwner();
 	if (!Controller)
 	{
-		return EBTNodeResult::Failed;
+		return EBTNodeResult::Aborted;
 	}
-	ACharacter* AICharactor = Cast<ACharacter>(Controller->GetPawn());
+	AMAICharacter* AICharactor = Cast<AMAICharacter>(Controller->GetPawn());
 	if (!AICharactor)
 	{
 		return EBTNodeResult::Failed;
@@ -27,7 +28,7 @@ EBTNodeResult::Type UMBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 	{
 		return EBTNodeResult::Failed;
 	}
-	FVector SpawnLocation = AICharactor->GetMesh()->GetSocketLocation("Muzzle_01");
+	FVector SpawnLocation = AICharactor->GetMesh()->GetSocketLocation(AICharactor->HandSocket);
 	FVector TargetLocation = TargetActor->GetActorLocation();
 	FRotator SpawnRotation = (TargetLocation - SpawnLocation).Rotation();
 	FActorSpawnParameters Param;

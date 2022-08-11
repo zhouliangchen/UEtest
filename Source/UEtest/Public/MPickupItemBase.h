@@ -26,6 +26,7 @@ protected:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool DoSthtoPawn(APawn* InstigatorPawn);
+
 	virtual bool DoSthtoPawn_Implementation(APawn* InstigatorPawn);
 	void ReadyForUse();
 public:	
