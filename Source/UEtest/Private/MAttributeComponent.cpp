@@ -22,18 +22,14 @@ UMAttributeComponent::UMAttributeComponent():Health(100.0f),HealthMax(100.0f)
 // }
 
 //在血量变动时返回true，并触发OnHealthChanged事件
-bool UMAttributeComponent::ApplyHealthChange(float Delta)
+bool UMAttributeComponent::ApplyHealthChange(AActor* InstigatorActor,float Delta)
 {
 	float NewHealth = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
 	Delta = NewHealth - Health;
-	if (Delta)
-	{
-		Health = NewHealth;
-		OnHealthChanged.Broadcast(nullptr, this, NewHealth, Delta);
-		//伤害弹窗应该在这添加
-		return true;
-	}
-	else return false;
+	Health = NewHealth;
+	OnHealthChanged.Broadcast(InstigatorActor, this, NewHealth, Delta);
+	//如果要为每个Actor启用伤害弹窗，应该在这添加
+	return Delta ? true : false;
 }
 
 bool UMAttributeComponent::IsAlive()const

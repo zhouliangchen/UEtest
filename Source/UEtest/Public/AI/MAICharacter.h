@@ -46,6 +46,7 @@ protected:
 	void OnSeePawn(APawn* Pawn);
 	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, UMAttributeComponent* OwningComp, float NewHealth, float Delta);
+	bool SetTargetActor(AActor* TargetActor);
 	virtual void PostInitializeComponents()override;
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;

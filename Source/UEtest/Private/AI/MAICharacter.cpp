@@ -24,14 +24,9 @@ int AMAICharacter::GetBotNum()
 
 void AMAICharacter::OnSeePawn(APawn* Pawn)
 {
-	AAIController* AIController = Cast<AAIController>(GetController());
-	//未被AIControl控制时不应执行
-	if(AIController)
+	if(SetTargetActor(Pawn))
 	{
-		UBlackboardComponent* BlackboardComp = AIController->GetBlackboardComponent();
-		BlackboardComp->SetValueAsObject(TargetActorName, Pawn);
 		DrawDebugString(GetWorld(), Pawn->GetActorLocation(), "OnSeePawn", nullptr, FColor::Blue, 3.0f, true, 1);
-
 	}
 }
 
@@ -39,12 +34,18 @@ void AMAICharacter::OnHealthChanged(AActor* InstigatorActor, UMAttributeComponen
 {
 	if(Delta<0.0f)
 	{
+		if(InstigatorActor!=this)
+		{
+			SetTargetActor(InstigatorActor);
+		}
 		GetMesh()->SetScalarParameterValueOnMaterials(HitTimeParam, GetWorld()->TimeSeconds);
 	}
 	if(NewHealth<=0.0f)
 	{
 		//SetActorEnableCollision(false);
 		DetachFromControllerPendingDestroy();
+		GetMesh()->SetAllBodiesSimulatePhysics(true);
+		GetMesh()->SetCollisionProfileName("Ragdoll", false);
 		SetLifeSpan(5.0f);
 		GEngine->AddOnScreenDebugMessage(INDEX_NONE, 3, FColor::Red, OwningComp->IsAlive() ? "AI死亡BUG" : "AI Killed");
 	}
@@ -62,6 +63,18 @@ void AMAICharacter::OnHealthChanged(AActor* InstigatorActor, UMAttributeComponen
 		}
 		
 	}
+}
+
+bool AMAICharacter::SetTargetActor(AActor* TargetActor)
+{
+	AAIController* AIController = Cast<AAIController>(GetController());
+	//未被AIControl控制时不应执行
+	if (AIController)
+	{
+		AIController->GetBlackboardComponent()->SetValueAsObject(TargetActorName, TargetActor);
+		return true;
+	}
+	return false;
 }
 
 void AMAICharacter::PostInitializeComponents()

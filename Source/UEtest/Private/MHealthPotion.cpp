@@ -17,7 +17,7 @@ bool AMHealthPotion::DoSthtoPawn_Implementation(APawn* InstigatorPawn)
 		{
 			//可以省略的检查
 			//if(!AttributeComp->IsFullHealth()&&AttributeComp->IsAlive())
-			if(AttributeComp->ApplyHealthChange(PowerUpNumber))
+			if(AttributeComp->ApplyHealthChange(this, PowerUpNumber))
 			{
 				return true;
 			}

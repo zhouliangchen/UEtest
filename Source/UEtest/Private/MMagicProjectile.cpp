@@ -23,7 +23,7 @@ void AMMagicProjectile::DealDamage(UPrimitiveComponent* PrimitiveComponent, AAct
         UMAttributeComponent* AttributeComp = Cast<UMAttributeComponent>(OtherActor->GetComponentByClass(UMAttributeComponent::StaticClass()));
         if(AttributeComp)
         {
-            AttributeComp->ApplyHealthChange(Damage);
+            AttributeComp->ApplyHealthChange(GetInstigator(), Damage);
             GEngine->AddOnScreenDebugMessage(INDEX_NONE, 3.0f, FColor::Blue, GetNameSafe(this) + " damage " + GetNameSafe(OtherActor));
             Destroy();
         }

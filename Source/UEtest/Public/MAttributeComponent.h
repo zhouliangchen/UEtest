@@ -29,7 +29,7 @@ public:
 	// Called every frame
 	//virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
-	bool ApplyHealthChange(float Delta);
+	bool ApplyHealthChange(AActor* InstigatorActor, float Delta);
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	bool IsAlive()const;
 	UFUNCTION(BlueprintCallable, Category = "Attributes")

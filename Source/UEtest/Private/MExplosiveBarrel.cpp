@@ -47,7 +47,7 @@ void AMExplosiveBarrel::OnCompHit(UPrimitiveComponent* PrimitiveComponent, AActo
 	{
 		if (UMAttributeComponent* AttributeComp=Cast<UMAttributeComponent>(OtherActor->GetComponentByClass(UMAttributeComponent::StaticClass())))
 		{
-			AttributeComp->ApplyHealthChange(-50.0f);
+			AttributeComp->ApplyHealthChange(this, -50.0f);
 		}
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, GetNameSafe(OtherActor)+" "+GetNameSafe(OtherComp) + " Cause Boom!");
