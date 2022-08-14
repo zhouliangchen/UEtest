@@ -16,7 +16,11 @@ class UETEST_API UMAttributeComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UMAttributeComponent();
-
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	static UMAttributeComponent* GetAttributeComp(AActor* Actor);
+	//当目标死亡，目标不存在，或者目标没有MAttributeComponent时返回false
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	static bool IsActorAlive(AActor* Actor);
 protected:
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Attributes")
 	float Health;
@@ -35,4 +39,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	bool IsFullHealth()const;
 	float GetHealthMax()const;
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	bool Kill(AActor* InstigatorActor);
 };

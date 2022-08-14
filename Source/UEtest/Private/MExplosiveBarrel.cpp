@@ -43,12 +43,9 @@ void AMExplosiveBarrel::PostInitializeComponents()
 void AMExplosiveBarrel::OnCompHit(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor,
                                   UPrimitiveComponent* OtherComp, FVector Vector, const FHitResult& HitResult)
 {
-	if(OtherActor)
+	if (UMAttributeComponent* AttributeComp=UMAttributeComponent::GetAttributeComp(OtherActor))
 	{
-		if (UMAttributeComponent* AttributeComp=Cast<UMAttributeComponent>(OtherActor->GetComponentByClass(UMAttributeComponent::StaticClass())))
-		{
-			AttributeComp->ApplyHealthChange(this, -50.0f);
-		}
+		AttributeComp->ApplyHealthChange(this, -50.0f);
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, GetNameSafe(OtherActor)+" "+GetNameSafe(OtherComp) + " Cause Boom!");
 	RadialForceComp->FireImpulse();

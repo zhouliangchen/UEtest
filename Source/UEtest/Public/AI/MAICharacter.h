@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "BehaviorTree/BehaviorTreeTypes.h"
 #include "GameFramework/Character.h"
+#include "UI/MAttachedWidget.h"
 #include "MAICharacter.generated.h"
 
 class UPawnSensingComponent;
@@ -14,6 +15,7 @@ UCLASS()
 class UETEST_API AMAICharacter : public ACharacter
 {
 	GENERATED_BODY()
+
 
 public:
 	
@@ -33,7 +35,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "AI")
 	FName TargetActorName;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	UPROPERTY(EditDefaultsOnly, Category = "Effect")
 	FName HitTimeParam;//材质参数名，用于输入时间，将差值刷新至0，从而触发HitFlash
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
@@ -41,6 +43,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	float HealthThreshold;
+
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	TSubclassOf<UMAttachedWidget> HealthBarWidget;
+
+	UPROPERTY()
+	UMAttachedWidget* WidgetInstance;
 
 	UFUNCTION()
 	void OnSeePawn(APawn* Pawn);

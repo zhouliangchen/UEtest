@@ -49,7 +49,11 @@ protected:
 public:
 	// Sets default values for this character's properties
 	AMCharacter();
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(Exec)
+	bool HealSelf(float HealAmount = 0.0f);
 protected:
 
 	UPROPERTY(VisibleAnywhere)
@@ -76,9 +80,5 @@ protected:
 	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, UMAttributeComponent* OwningComp, float NewHealth, float Delta);
 	virtual void PostInitializeComponents() override;
-public:
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };

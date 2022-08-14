@@ -18,14 +18,21 @@ class UETEST_API AUEtestGameModeBase : public AGameModeBase
 public:
 	AUEtestGameModeBase();
 	virtual void StartPlay() override;
+	UFUNCTION(Exec)
+	void killAllEnemies();
+
 protected:
 	FTimerHandle SpawnBotTimerHandle;
+
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	float IntervalTime;
+
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UEnvQuery* SpawnBotQuery;
+
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	TSubclassOf<AMAICharacter> EnemyClass;
+
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UCurveFloat* DifficultyCurve;
 

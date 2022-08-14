@@ -13,6 +13,25 @@ UMAttributeComponent::UMAttributeComponent():Health(100.0f),HealthMax(100.0f)
 	// ...
 }
 
+UMAttributeComponent* UMAttributeComponent::GetAttributeComp(AActor* Actor)
+{
+	if(Actor)
+	{
+		return Cast<UMAttributeComponent>(Actor->GetComponentByClass(UMAttributeComponent::StaticClass()));
+	}
+	return nullptr;
+}
+
+bool UMAttributeComponent::IsActorAlive(AActor* Actor)
+{
+	UMAttributeComponent* AttributeComp = GetAttributeComp(Actor);
+	if(AttributeComp)
+	{
+		return AttributeComp->IsAlive();
+	}
+	return false;
+}
+
 
 // // Called every frame
 // void UMAttributeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -24,6 +43,10 @@ UMAttributeComponent::UMAttributeComponent():Health(100.0f),HealthMax(100.0f)
 //在血量变动时返回true，并触发OnHealthChanged事件
 bool UMAttributeComponent::ApplyHealthChange(AActor* InstigatorActor,float Delta)
 {
+	if(!GetOwner()->CanBeDamaged())
+	{
+		return false;
+	}
 	float NewHealth = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
 	Delta = NewHealth - Health;
 	Health = NewHealth;
@@ -46,5 +69,10 @@ bool UMAttributeComponent::IsFullHealth() const
 float UMAttributeComponent::GetHealthMax() const
 {
 	return HealthMax;
+}
+
+bool UMAttributeComponent::Kill(AActor* InstigatorActor)
+{
+	return ApplyHealthChange(InstigatorActor, -HealthMax);
 }
 

@@ -12,7 +12,7 @@ AMMagicProjectile::AMMagicProjectile():Damage(-20.0f)
 {
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     //MovementComp->InitialSpeed = 4000.0f;
-    SphereComp->OnComponentBeginOverlap.AddUniqueDynamic(this, &AMMagicProjectile::DealDamage);
+    SphereComp->SetSphereRadius(15.0f);
 }
 
 void AMMagicProjectile::DealDamage(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor,
@@ -20,7 +20,7 @@ void AMMagicProjectile::DealDamage(UPrimitiveComponent* PrimitiveComponent, AAct
 {
     if(OtherActor&&OtherActor!=GetInstigator())
     {
-        UMAttributeComponent* AttributeComp = Cast<UMAttributeComponent>(OtherActor->GetComponentByClass(UMAttributeComponent::StaticClass()));
+        UMAttributeComponent* AttributeComp = UMAttributeComponent::GetAttributeComp(OtherActor);
         if(AttributeComp)
         {
             AttributeComp->ApplyHealthChange(GetInstigator(), Damage);
@@ -28,5 +28,11 @@ void AMMagicProjectile::DealDamage(UPrimitiveComponent* PrimitiveComponent, AAct
             Destroy();
         }
     }
+}
+
+void AMMagicProjectile::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+    SphereComp->OnComponentBeginOverlap.AddUniqueDynamic(this, &AMMagicProjectile::DealDamage);
 }
 

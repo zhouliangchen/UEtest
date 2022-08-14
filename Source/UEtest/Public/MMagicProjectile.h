@@ -19,4 +19,5 @@ protected:
 	void DealDamage(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int Index, bool bArg, const FHitResult& HitResult);
 	UPROPERTY(EditDefaultsOnly)
 	float Damage;
+	virtual void PostInitializeComponents() override;
 };

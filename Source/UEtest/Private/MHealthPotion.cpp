@@ -10,17 +10,14 @@ AMHealthPotion::AMHealthPotion():PowerUpNumber(50.0f)
 
 bool AMHealthPotion::DoSthtoPawn_Implementation(APawn* InstigatorPawn)
 {
-	if(InstigatorPawn)
+	UMAttributeComponent* AttributeComp = UMAttributeComponent::GetAttributeComp(InstigatorPawn);
+	if (AttributeComp)
 	{
-		UMAttributeComponent* AttributeComp = Cast<UMAttributeComponent>(InstigatorPawn->GetComponentByClass(UMAttributeComponent::StaticClass()));
-		if(AttributeComp)
+		//可以省略的检查
+		//if(!AttributeComp->IsFullHealth()&&AttributeComp->IsAlive())
+		if (AttributeComp->ApplyHealthChange(this, PowerUpNumber))
 		{
-			//可以省略的检查
-			//if(!AttributeComp->IsFullHealth()&&AttributeComp->IsAlive())
-			if(AttributeComp->ApplyHealthChange(this, PowerUpNumber))
-			{
-				return true;
-			}
+			return true;
 		}
 	}
 	return false;
