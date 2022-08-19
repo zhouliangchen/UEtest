@@ -13,6 +13,7 @@ UCLASS()
 class UETEST_API AMAIController : public AAIController
 {
 	GENERATED_BODY()
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UBehaviorTree* BehaviorTree;

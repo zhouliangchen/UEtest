@@ -20,8 +20,16 @@ public:
 	virtual void StartPlay() override;
 	UFUNCTION(Exec)
 	void killAllEnemies();
-
+	
+	virtual void OnPlayerKilled(AActor* VictimActor, AActor* InstigatorActor);
+	virtual void OnMinionKilled(AActor* VictimActor, AActor* InstigatorActor);
 protected:
+	UPROPERTY(EditDefaultsOnly)
+	float PlayerSpawnDelay;
+
+	UPROPERTY(EditDefaultsOnly, Category = "GamePlay")
+	float MinionReward;
+
 	FTimerHandle SpawnBotTimerHandle;
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
@@ -39,5 +47,6 @@ protected:
 	UFUNCTION()
 	void OnQueryFinished(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
 	void SpawnBot_Delay();
+	void OnPlayerKilled_Delay(AController* Controller);
 
 };

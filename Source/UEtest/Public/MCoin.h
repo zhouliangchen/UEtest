@@ -4,21 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "MPickupItemBase.h"
-#include "MHealthPotion.generated.h"
+#include "MCoin.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UETEST_API AMHealthPotion : public AMPickupItemBase
+class UETEST_API AMCoin : public AMPickupItemBase
 {
 	GENERATED_BODY()
 public:
-	AMHealthPotion();
+	AMCoin();
 protected:
-	UPROPERTY(EditAnywhere)
-	float PowerUpNumber;
 	UPROPERTY(EditDefaultsOnly, Category = "GamePlay")
-	float HealCost;
+	float CoinReward;
 	virtual bool DoSthtoPawn_Implementation(APawn* InstigatorPawn) override;
 };

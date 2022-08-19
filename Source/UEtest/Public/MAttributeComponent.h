@@ -7,6 +7,7 @@
 #include "MAttributeComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChangedSignature, AActor*, InstigatorActor, UMAttributeComponent*, OwningComp, float, NewHealth, float, Delta);
+DECLARE_DELEGATE_TwoParams(FOnActorKilledSignature, AActor*, AActor*);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UETEST_API UMAttributeComponent : public UActorComponent
@@ -30,6 +31,8 @@ protected:
 public:
 	UPROPERTY(BlueprintAssignable,Category="Attributes")
 	FOnHealthChangedSignature OnHealthChanged;
+	FOnActorKilledSignature OnActorKilled;
+
 	// Called every frame
 	//virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UFUNCTION(BlueprintCallable, Category = "Attributes")

@@ -4,8 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "MGameplayInterface.h"
+#include "EnvironmentQuery/EnvQueryTypes.h"
 #include "GameFramework/Actor.h"
 #include "MPickupItemBase.generated.h"
+
+class UEnvQueryInstanceBlueprintWrapper;
+class UEnvQuery;
 
 UCLASS(Abstract)
 class UETEST_API AMPickupItemBase : public AActor,public IMGameplayInterface
@@ -21,14 +25,24 @@ protected:
 	FTimerHandle CoolDownTimer;
 	float CoolDownTime;
 
-	UPROPERTY(EditAnywhere, Category = "Components")
+	UPROPERTY(EditAnywhere, Category = "GamePlay")
+	float SpawnHeight;
+
+	UPROPERTY(EditDefaultsOnly, Category = "GamePlay")
+	UEnvQuery* SpawnItemsQuery;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Components")
 	UStaticMeshComponent* MeshComp;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool DoSthtoPawn(APawn* InstigatorPawn);
 
 	virtual bool DoSthtoPawn_Implementation(APawn* InstigatorPawn);
-	void ReadyForUse();
+	virtual void BeginPlay() override;
+	void ReadyForSpawn();
+	UFUNCTION()
+	void OnQueryFinished(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
+	
 public:	
 
 };
