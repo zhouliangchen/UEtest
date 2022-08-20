@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Sound/SoundCue.h"
 #include "MProjectileBase.generated.h"
 
+class USoundCue;
 class USphereComponent;
 class UProjectileMovementComponent;
 class UParticleSystemComponent;

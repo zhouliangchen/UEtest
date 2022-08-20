@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MProjectileBase.h"
 #include "BehaviorTree/BTTaskNode.h"
 #include "MBTTask_Attack.generated.h"
 
+class AMProjectileBase;
 /**
  * 
  */

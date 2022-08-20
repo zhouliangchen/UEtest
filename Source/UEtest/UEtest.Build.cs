@@ -8,7 +8,7 @@ public class UEtest : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 		//实现AI，以及实现行为树服务节点，需要增加部分模块
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore","GameplayTasks", "AIModule", "UMG" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore","GameplayTasks", "AIModule", "UMG", "GameplayTags"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

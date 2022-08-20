@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AI/MAICharacter.h"
 #include "EnvironmentQuery/EnvQueryTypes.h"
 #include "GameFramework/GameModeBase.h"
 #include "UEtestGameModeBase.generated.h"
 
+class AMAICharacter;
 class UEnvQueryInstanceBlueprintWrapper;
 class UEnvQuery;
 

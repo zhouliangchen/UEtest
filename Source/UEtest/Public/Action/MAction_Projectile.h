@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MProjectileBase.h"
 #include "Action/MAction.h"
 #include "MAction_Projectile.generated.h"
 
+class AMProjectileBase;
 /**
  * 
  */

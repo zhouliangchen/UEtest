@@ -3,11 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "GameFramework/Character.h"
-#include "UI/MAttachedWidget.h"
 #include "MAICharacter.generated.h"
 
+class UMAttachedWidget;
 class UPawnSensingComponent;
 class UMAttributeComponent;
 

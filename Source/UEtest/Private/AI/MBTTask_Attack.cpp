@@ -5,6 +5,7 @@
 
 #include "AIController.h"
 #include "MAttributeComponent.h"
+#include "MProjectileBase.h"
 #include "AI/MAICharacter.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/Character.h"

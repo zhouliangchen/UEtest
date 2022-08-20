@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/SizeBox.h"
 #include "MAttachedWidget.generated.h"
 
+class USizeBox;
 /**
  * 
  */

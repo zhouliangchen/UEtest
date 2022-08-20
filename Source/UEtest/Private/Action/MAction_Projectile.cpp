@@ -2,7 +2,7 @@
 
 
 #include "Action/MAction_Projectile.h"
-
+#include "MProjectileBase.h"
 #include "MCharacter.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"

@@ -4,6 +4,7 @@
 #include "UI/MAttachedWidget.h"
 
 #include "Blueprint/WidgetLayoutLibrary.h"
+#include "Components/SizeBox.h"
 #include "Kismet/GameplayStatics.h"
 
 UMAttachedWidget::UMAttachedWidget():UUserWidget(FObjectInitializer()),Offset(0)
