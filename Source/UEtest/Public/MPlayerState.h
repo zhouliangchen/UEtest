@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerState.h"
 #include "MPlayerState.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCreditsChangedSignature, float, NewCredits);
 /**
  * 
  */
@@ -14,10 +15,13 @@ class UETEST_API AMPlayerState : public APlayerState
 {
 	GENERATED_BODY()
 public:
+	UFUNCTION(BlueprintCallable, Category = "Gameplay")
+	bool UpdatePlayerCredits(float Delta);
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnCreditsChangedSignature OnCreditsChanged;
 	AMPlayerState();
 	
 protected:
-	UPROPERTY(EditAnywhere, Category = "GamePlay")
+	UPROPERTY(EditAnywhere, Category = "Gameplay")
 	float Credits;
-	friend class UMGamePlayFunctionLibrary;
 };

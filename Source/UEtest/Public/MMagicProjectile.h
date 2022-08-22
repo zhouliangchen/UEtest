@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "MProjectileBase.h"
+#include "NativeGameplayTags.h"
 #include "MMagicProjectile.generated.h"
 
 UCLASS()
@@ -15,9 +16,12 @@ public:
 	// Sets default values for this actor's properties
 	AMMagicProjectile();
 protected:
+	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
+	FGameplayTag ParryTag;
 	UFUNCTION()
 	void DealDamage(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int Index, bool bArg, const FHitResult& HitResult);
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly,Category="Damage")
 	float Damage;
 	virtual void PostInitializeComponents() override;
+	bool bReflected;
 };

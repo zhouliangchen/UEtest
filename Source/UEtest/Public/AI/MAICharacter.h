@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "MAICharacter.generated.h"
 
+class UMActionComponent;
 class UMAttachedWidget;
 class UPawnSensingComponent;
 class UMAttributeComponent;
@@ -30,6 +31,8 @@ protected:
 	UPawnSensingComponent* PawnSensingComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UMAttributeComponent* AttributeComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UMActionComponent* ActionComp;
 
 	UPROPERTY(EditAnywhere, Category = "AI")
 	FName TargetActorName;

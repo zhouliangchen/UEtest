@@ -16,7 +16,7 @@ class UETEST_API AMCoin : public AMPickupItemBase
 public:
 	AMCoin();
 protected:
-	UPROPERTY(EditDefaultsOnly, Category = "GamePlay")
+	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
 	float CoinReward;
 	virtual bool DoSthtoPawn_Implementation(APawn* InstigatorPawn) override;
 };

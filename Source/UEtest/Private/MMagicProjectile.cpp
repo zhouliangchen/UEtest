@@ -5,11 +5,12 @@
 
 #include "MAttributeComponent.h"
 #include "MGamePlayFunctionLibrary.h"
+#include "Action/MActionComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
 // Sets default values
-AMMagicProjectile::AMMagicProjectile():Damage(20.0f)
+AMMagicProjectile::AMMagicProjectile():Damage(20.0f),bReflected(false)
 {
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     //MovementComp->InitialSpeed = 4000.0f;
@@ -21,9 +22,20 @@ void AMMagicProjectile::DealDamage(UPrimitiveComponent* PrimitiveComponent, AAct
 {
     if(OtherActor&&OtherActor!=GetInstigator())
     {
+	    if (!bReflected)
+	    {
+			UMActionComponent* ActionComp = Cast<UMActionComponent>(OtherActor->GetComponentByClass(UMActionComponent::StaticClass()));
+		    if (ActionComp && ActionComp->ActiveGameplayTags.HasTag(ParryTag))
+		    {
+			    MovementComp->Velocity = -MovementComp->Velocity;
+			    SetInstigator(Cast<APawn>(OtherActor));
+			    bReflected = true;
+				return;
+		    }
+	    }
         if(UMGamePlayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, Damage, HitResult))
         {
-	        GEngine->AddOnScreenDebugMessage(INDEX_NONE, 3.0f, FColor::Blue, GetNameSafe(this) + " damage " + GetNameSafe(OtherActor));
+            UE_LOG(LogTemp, Log, TEXT("%s damage %s"), *GetNameSafe(GetInstigator()), *GetNameSafe(OtherActor));
             Explode();
         }
     }

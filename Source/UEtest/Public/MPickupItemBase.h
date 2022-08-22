@@ -25,10 +25,10 @@ protected:
 	FTimerHandle CoolDownTimer;
 	float CoolDownTime;
 
-	UPROPERTY(EditAnywhere, Category = "GamePlay")
+	UPROPERTY(EditAnywhere, Category = "Gameplay")
 	float SpawnHeight;
 
-	UPROPERTY(EditDefaultsOnly, Category = "GamePlay")
+	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
 	UEnvQuery* SpawnItemsQuery;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Components")

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "Components/ActorComponent.h"
 #include "MActionComponent.generated.h"
 
@@ -13,6 +14,9 @@ class UETEST_API UMActionComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameplayTags")
+	FGameplayTagContainer ActiveGameplayTags;
+		
 	UFUNCTION(BlueprintCallable,Category="Action")
 	bool AddAction(TSubclassOf<UMAction> ActionClass);
 	UFUNCTION(BlueprintCallable, Category = "Action")

@@ -15,7 +15,7 @@ class UETEST_API UMAttachedWidget : public UUserWidget
 {
 	GENERATED_BODY()
 protected:
-	UPROPERTY(BlueprintReadOnly, Category = "UI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
 	AActor* AttachTo;
 	UPROPERTY(meta = (BindWidget))
 	USizeBox* ParentSizeBox;

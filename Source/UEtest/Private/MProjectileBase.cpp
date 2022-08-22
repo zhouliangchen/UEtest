@@ -40,8 +40,7 @@ void AMProjectileBase::PostInitializeComponents()
 void AMProjectileBase::ProjectileHit(UPrimitiveComponent* HitComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& HitResult)
 {
-	GEngine->AddOnScreenDebugMessage(INDEX_NONE, 3.0f, FColor::Blue, GetNameSafe(this) + " hit " + GetNameSafe(OtherActor));
-
+	UE_LOG(LogTemp, Log, TEXT("%s hit %s"), *GetNameSafe(this), *GetNameSafe(OtherActor));
 	Explode();
 }
 

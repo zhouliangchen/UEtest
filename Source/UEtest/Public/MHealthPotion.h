@@ -18,7 +18,7 @@ public:
 protected:
 	UPROPERTY(EditAnywhere)
 	float PowerUpNumber;
-	UPROPERTY(EditDefaultsOnly, Category = "GamePlay")
+	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
 	float HealCost;
 	virtual bool DoSthtoPawn_Implementation(APawn* InstigatorPawn) override;
 };

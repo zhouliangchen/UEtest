@@ -29,7 +29,7 @@ protected:
 	float HealthMax;
 
 public:
-	UPROPERTY(BlueprintAssignable,Category="Attributes")
+	UPROPERTY(BlueprintAssignable,Category="Events")
 	FOnHealthChangedSignature OnHealthChanged;
 	FOnActorKilledSignature OnActorKilled;
 

@@ -27,7 +27,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float PlayerSpawnDelay;
 
-	UPROPERTY(EditDefaultsOnly, Category = "GamePlay")
+	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
 	float MinionReward;
 
 	FTimerHandle SpawnBotTimerHandle;
@@ -46,6 +46,7 @@ protected:
 
 	UFUNCTION()
 	void OnQueryFinished(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
+
 	void SpawnBot_Delay();
 	void OnPlayerKilled_Delay(AController* Controller);
 
