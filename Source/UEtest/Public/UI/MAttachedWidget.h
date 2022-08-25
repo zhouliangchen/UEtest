@@ -15,15 +15,15 @@ class UETEST_API UMAttachedWidget : public UUserWidget
 {
 	GENERATED_BODY()
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
-	AActor* AttachTo;
 	UPROPERTY(meta = (BindWidget))
 	USizeBox* ParentSizeBox;
 	UPROPERTY(EditAnywhere, Category = "UI")
 	FVector Offset;
 public:
 	UMAttachedWidget();
-	bool SetAttachedActor(AActor* Actor);
+	bool SetAttachedActorIfNot(AActor* Actor);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	AActor* AttachTo;
 protected:
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime)override;
 	

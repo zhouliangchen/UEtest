@@ -5,6 +5,9 @@
 
 #include "Action/MActionComponent.h"
 
+UMAction::UMAction():bIsRunning(false), AutoStart(false)
+{
+}
 void UMAction::StartAction_Implementation(AActor* Instigator)
 {
 	GetOwnerComp()->ActiveGameplayTags.AppendTags(GrantTags);
@@ -12,7 +15,7 @@ void UMAction::StartAction_Implementation(AActor* Instigator)
 	bIsRunning = true;
 }
 
-void UMAction::StopAction_Implementation(AActor* Instigator)
+void UMAction::StopAction_Implementation(AActor* Instigator, bool bEmergency)
 {
 	ensureAlwaysMsgf(bIsRunning, TEXT("Action %s Stopped while it's not running!"), *GetNameSafe(this));
 	GetOwnerComp()->ActiveGameplayTags.RemoveTags(GrantTags);
@@ -42,6 +45,8 @@ bool UMAction::IsRunning()const
 {
 	return bIsRunning;
 }
+
+
 
 UMActionComponent* UMAction::GetOwnerComp() const
 {

@@ -25,13 +25,17 @@ protected:
 	bool bIsRunning;
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Action")
+	bool AutoStart;
+	UPROPERTY(EditDefaultsOnly, Category = "Action")
 	FName ActionName;
 	UFUNCTION(BlueprintNativeEvent, Category = "Action")
 	void StartAction(AActor* Instigator);
 	UFUNCTION(BlueprintNativeEvent, Category = "Action")
-	void StopAction(AActor* Instigator);
+	//bEmergency 用于来自外部的Stop，跳过不必要的步骤
+	void StopAction(AActor* Instigator,bool bEmergency);
 	UFUNCTION(BlueprintNativeEvent, Category = "Action")
 	bool CanStart(AActor* Instigator);
 	virtual UWorld* GetWorld() const override;
 	bool IsRunning()const;
+	UMAction();
 };

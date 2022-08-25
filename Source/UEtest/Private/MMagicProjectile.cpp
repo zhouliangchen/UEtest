@@ -6,6 +6,7 @@
 #include "MAttributeComponent.h"
 #include "MGamePlayFunctionLibrary.h"
 #include "Action/MActionComponent.h"
+#include "Action/MActionEffect.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
@@ -22,9 +23,9 @@ void AMMagicProjectile::DealDamage(UPrimitiveComponent* PrimitiveComponent, AAct
 {
     if(OtherActor&&OtherActor!=GetInstigator())
     {
+		UMActionComponent* ActionComp = Cast<UMActionComponent>(OtherActor->GetComponentByClass(UMActionComponent::StaticClass()));
 	    if (!bReflected)
 	    {
-			UMActionComponent* ActionComp = Cast<UMActionComponent>(OtherActor->GetComponentByClass(UMActionComponent::StaticClass()));
 		    if (ActionComp && ActionComp->ActiveGameplayTags.HasTag(ParryTag))
 		    {
 			    MovementComp->Velocity = -MovementComp->Velocity;
@@ -37,6 +38,10 @@ void AMMagicProjectile::DealDamage(UPrimitiveComponent* PrimitiveComponent, AAct
         {
             UE_LOG(LogTemp, Log, TEXT("%s damage %s"), *GetNameSafe(GetInstigator()), *GetNameSafe(OtherActor));
             Explode();
+			if (ActionComp && ActionComp->bAlive)
+			{
+				ActionComp->AddActionEffect(BurningActionEffect, GetInstigator());
+			}
         }
     }
 }

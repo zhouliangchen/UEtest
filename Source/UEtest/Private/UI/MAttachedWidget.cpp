@@ -12,7 +12,7 @@ UMAttachedWidget::UMAttachedWidget():UUserWidget(FObjectInitializer()),Offset(0)
 
 }
 
-bool UMAttachedWidget::SetAttachedActor(AActor* Actor)
+bool UMAttachedWidget::SetAttachedActorIfNot(AActor* Actor)
 {
 	if (AttachTo)return false;
 	AttachTo = Actor;

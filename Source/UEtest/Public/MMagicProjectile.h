@@ -7,6 +7,7 @@
 #include "NativeGameplayTags.h"
 #include "MMagicProjectile.generated.h"
 
+class UMActionEffect;
 UCLASS()
 class UETEST_API AMMagicProjectile : public AMProjectileBase
 {
@@ -18,6 +19,8 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
 	FGameplayTag ParryTag;
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	TSubclassOf<UMActionEffect> BurningActionEffect;
 	UFUNCTION()
 	void DealDamage(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int Index, bool bArg, const FHitResult& HitResult);
 	UPROPERTY(EditDefaultsOnly,Category="Damage")

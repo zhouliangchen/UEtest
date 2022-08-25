@@ -47,7 +47,7 @@ void AMExplosiveBarrel::OnCompHit(UPrimitiveComponent* PrimitiveComponent, AActo
 	{
 		AttributeComp->ApplyHealthChange(this, -50.0f);
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, GetNameSafe(OtherActor)+" "+GetNameSafe(OtherComp) + " Cause Boom!");
+	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Cyan, GetNameSafe(OtherActor)+" "+GetNameSafe(OtherComp) + " Cause Boom!");
 	RadialForceComp->FireImpulse();
 }
 

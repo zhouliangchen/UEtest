@@ -21,12 +21,11 @@ public:
 	AMPickupItemBase();
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
 
+	UPROPERTY(EditAnywhere, Category = "Gameplay")
+	float SpawnHeight;
 protected:
 	FTimerHandle CoolDownTimer;
 	float CoolDownTime;
-
-	UPROPERTY(EditAnywhere, Category = "Gameplay")
-	float SpawnHeight;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
 	UEnvQuery* SpawnItemsQuery;

@@ -16,9 +16,12 @@ class UETEST_API UMAction_Projectile : public UMAction
 	GENERATED_BODY()
 public:
 	virtual void StartAction_Implementation(AActor* Instigator) override;
+	virtual bool CanStart_Implementation(AActor* Instigator) override;
 	void SpawnProjectile(ACharacter* Instigator);
 	UMAction_Projectile();
 protected:
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	float EnergyCost;
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	TSubclassOf<AMProjectileBase> ProjectileClass;
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")

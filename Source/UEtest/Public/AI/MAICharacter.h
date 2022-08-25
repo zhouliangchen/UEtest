@@ -47,10 +47,16 @@ protected:
 	float HealthThreshold;
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
-	TSubclassOf<UMAttachedWidget> HealthBarWidget;
+	TSubclassOf<UMAttachedWidget> HealthBarWidgetClass;
 
 	UPROPERTY()
-	UMAttachedWidget* WidgetInstance;
+	UMAttachedWidget* HealthBarWidgetInstance;
+
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	TSubclassOf<UMAttachedWidget> SpotWidgetClass;
+
+	UPROPERTY()
+	UMAttachedWidget* SpotWidgetInstance;
 
 	UFUNCTION()
 	void OnSeePawn(APawn* Pawn);

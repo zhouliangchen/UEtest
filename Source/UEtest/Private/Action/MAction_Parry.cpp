@@ -11,7 +11,7 @@ void UMAction_Parry::StartAction_Implementation(AActor* Instigator)
 {
 	Super::StartAction_Implementation(Instigator);
 	//Delegate.BindUFunction(this, STATIC_FUNCTION_FNAME(TEXT("UMAction::StopAction")), Instigator);
-	Delegate.BindUObject(this, &UMAction::StopAction, Instigator);
+	Delegate.BindUObject(this, &UMAction::StopAction, Instigator, false);
 	GetWorld()->GetTimerManager().SetTimer(ParryingTimer, Delegate, ParryingDuration, false);
 }
 
