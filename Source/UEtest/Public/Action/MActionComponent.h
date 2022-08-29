@@ -21,10 +21,10 @@ public:
 		
 	UFUNCTION(BlueprintCallable, Category = "Action")
 	bool AddAction(TSubclassOf<UMAction> ActionClass, AActor* Instigator);
+
 	UFUNCTION(BlueprintCallable, Category = "Action")
 	bool AddActionUnique(TSubclassOf<UMAction> ActionClass, AActor* Instigator);
-	UFUNCTION(BlueprintCallable, Category = "Action")
-	bool AddActionEffect(TSubclassOf<UMActionEffect> ActionClass, AActor* Instigator);
+
 	UFUNCTION(BlueprintCallable, Category = "Action")
 	bool RemoveAction(UMAction* Action);
 	UFUNCTION(BlueprintCallable, Category = "Action")
@@ -37,17 +37,21 @@ public:
 	static UMActionComponent* GetActionComp(AActor* Actor);
 	// Sets default values for this component's properties
 	UMActionComponent();
-	
+
+	virtual bool ReplicateSubobjects(UActorChannel* Channel, FOutBunch* Bunch, FReplicationFlags* RepFlags) override;
 protected:
 	//游戏开始时，默认的初始可用Action
 	UPROPERTY(EditDefaultsOnly, Category = "Action")
 	TArray<TSubclassOf<UMAction>> DefaultActions;
 	//可用Action
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Replicated)
 	TArray<UMAction*> Actions;
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	
+	UFUNCTION(Server, Reliable)
+	void ServerStartAction(AActor* Instigator, FName ActionName);
+	UFUNCTION(Server, Reliable)
+	void ServerStopAction(AActor* Instigator, FName ActionName);
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

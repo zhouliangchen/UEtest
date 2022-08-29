@@ -2,6 +2,7 @@
 
 
 #include "MItemChest.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values
 AMItemChest::AMItemChest():RotationPitch(110.0)
@@ -11,20 +12,31 @@ AMItemChest::AMItemChest():RotationPitch(110.0)
 	RootComponent = ChestMesh = CreateDefaultSubobject<UStaticMeshComponent>("ChestMesh");
 	LidMesh = CreateDefaultSubobject<UStaticMeshComponent>("LidMesh");
 	LidMesh->SetupAttachment(ChestMesh);
+	//第一步，为对象启用网络复制
+	//SetReplicates(true);
+	bReplicates = true;
 }
 
 void AMItemChest::Interact_Implementation(APawn* InstigatorPawn)
 {
-	LidMesh->SetRelativeRotation(FRotator(RotationPitch, 0, 0));
-	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Orange, "Chest has been opened!");
+	bLidOpened = !bLidOpened;
+	OnRep_LidOpened();
 }
 
-// Called when the game starts or when spawned
-void AMItemChest::BeginPlay()
+void AMItemChest::OnRep_LidOpened()
 {
-	Super::BeginPlay();
-	
+	LidMesh->SetRelativeRotation(FRotator(bLidOpened ? RotationPitch : 0.0f, 0, 0));
+	//GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Orange, "Chest has been opened!");
 }
+
+void AMItemChest::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	//第三步，为要复制的属性指定复制的规则
+	DOREPLIFETIME(AMItemChest, bLidOpened);
+}
+
+
 
 // Called every frame
 void AMItemChest::Tick(float DeltaTime)

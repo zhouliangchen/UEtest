@@ -27,7 +27,9 @@ AMProjectileBase::AMProjectileBase()
 	MovementComp->bInitialVelocityInLocalSpace = true;
 	MovementComp->ProjectileGravityScale = 0.0f;
 	MovementComp->InitialSpeed = 4000.0f;
-	
+
+	//SetReplicates(true);
+	bReplicates = true;
 }
 
 void AMProjectileBase::PostInitializeComponents()

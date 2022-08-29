@@ -19,18 +19,23 @@ public:
 	float RotationPitch;
 
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
-
+	//已在generated headfile中声明
+	//virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 protected:
+	//第二步，为要复制的属性进行Replicated标识
+	UPROPERTY(BlueprintReadOnly,ReplicatedUsing="OnRep_LidOpened")
+	bool bLidOpened;
 
-	UPROPERTY(EditAnywhere)
+	UFUNCTION()
+	void OnRep_LidOpened();
+
+	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* ChestMesh;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* LidMesh;
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
+	
 
 public:	
 	// Called every frame

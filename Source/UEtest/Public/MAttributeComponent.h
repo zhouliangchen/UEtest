@@ -6,8 +6,11 @@
 #include "Components/ActorComponent.h"
 #include "MAttributeComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChangedSignature, AActor*, InstigatorActor, UMAttributeComponent*, OwningComp, float, NewHealth, float, Delta);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnEnergyChangedSignature, AActor*, InstigatorActor, UMAttributeComponent*, OwningComp, float, NewEnergy, float, Delta);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChangedSignature, AActor*, InstigatorActor, UMAttributeComponent*, OwningComp, float, NewHealth, float, Delta);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnEnergyChangedSignature, AActor*, InstigatorActor, UMAttributeComponent*, OwningComp, float, NewEnergy, float, Delta);
+//由于Event Signature参数一致，可以进行复用
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnAttributeChangedSignature, AActor*, InstigatorActor, UMAttributeComponent*, OwningComp, float, NewValue, float, Delta);
+
 DECLARE_DELEGATE_TwoParams(FOnActorKilledSignature, AActor*, AActor*);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -24,13 +27,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	static bool IsActorAlive(AActor* Actor);
 protected:
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Attributes")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, Category = "Attributes")
 	float Health;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, Category = "Attributes")
 	float HealthMax;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, Category = "Attributes")
 	float Energy;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, Category = "Attributes")
 	float EnergyMax;
 	//受到伤害转换为能量的比值
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attributes")
@@ -38,11 +41,16 @@ protected:
 	//造成伤害转换为能量的比值
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attributes")
 	float AttackConvertionRate;
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastHealthChanged(AActor* InstigatorActor, float NewHealth, float Delta);
+	UFUNCTION(NetMulticast, Unreliable)
+	void MulticastEnergyChanged(AActor* InstigatorActor, float NewEnergy, float Delta);
 public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnHealthChangedSignature OnHealthChanged;
+	FOnAttributeChangedSignature OnHealthChanged;
 	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnEnergyChangedSignature OnEnergyChanged;
+	FOnAttributeChangedSignature OnEnergyChanged;
 	FOnActorKilledSignature OnActorKilled;
 
 	// Called every frame

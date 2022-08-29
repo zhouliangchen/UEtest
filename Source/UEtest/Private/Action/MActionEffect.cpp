@@ -41,7 +41,6 @@ void UMActionEffect::StopAction_Implementation(AActor* Instigator, bool bEmergen
 	Super::StopAction_Implementation(Instigator, bEmergency);
 	GetWorld()->GetTimerManager().ClearTimer(DurationTimer);
 	GetWorld()->GetTimerManager().ClearTimer(PeriodTimer);
-	UMActionComponent* OwnerComp = GetOwnerComp();
 	//此处必须在StopAllAction时跳过，否则会产生迭代器失效bug
 	if (!bEmergency && OwnerComp)
 	{
@@ -60,7 +59,7 @@ void UMActionEffect::ReStartEffect(AActor* Instigator)
 }
 void UMActionEffect::PreExecuteEffect()
 {
-	if(GetOwnerComp()->bAlive)
+	if(OwnerComp->bAlive)
 	{
 		ExecuteEffect();
 	}

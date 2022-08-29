@@ -22,7 +22,7 @@ protected:
 public:
 	UMAttachedWidget();
 	bool SetAttachedActorIfNot(AActor* Actor);
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (ExposeOnSpawn = true))
 	AActor* AttachTo;
 protected:
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime)override;

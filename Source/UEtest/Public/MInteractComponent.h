@@ -21,6 +21,9 @@ protected:
 	UPROPERTY()
 	AActor* FocusedActor;
 
+	UFUNCTION(Server, Reliable)
+	void ServerInteract(AActor* InFocusedActor);
+
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<UMAttachedWidget> InteractWidgetClass;
 

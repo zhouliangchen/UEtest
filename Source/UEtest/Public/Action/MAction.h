@@ -11,6 +11,18 @@ class UMActionComponent;
 /**
  * 
  */
+USTRUCT()
+struct FActionRepData
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	bool bIsRunning;
+	UPROPERTY()
+	AActor* Instigator;
+};
+
+
 UCLASS(Blueprintable)
 class UETEST_API UMAction : public UObject
 {
@@ -22,20 +34,30 @@ protected:
 	FGameplayTagContainer BlockedTags;
 	UFUNCTION(BlueprintCallable, Category = "Action")
 	UMActionComponent* GetOwnerComp() const;
-	bool bIsRunning;
+	UPROPERTY(ReplicatedUsing = "OnRep_RepData")
+	FActionRepData RepData;
+	UFUNCTION()
+	void OnRep_RepData();
+	UPROPERTY(Replicated)
+	UMActionComponent* OwnerComp;
 public:
+	void InitializeAction(UMActionComponent* Comp);
 	UPROPERTY(EditDefaultsOnly, Category = "Action")
 	bool AutoStart;
 	UPROPERTY(EditDefaultsOnly, Category = "Action")
 	FName ActionName;
 	UFUNCTION(BlueprintNativeEvent, Category = "Action")
 	void StartAction(AActor* Instigator);
-	UFUNCTION(BlueprintNativeEvent, Category = "Action")
 	//bEmergency 用于来自外部的Stop，跳过不必要的步骤
+	UFUNCTION(BlueprintNativeEvent, Category = "Action")
 	void StopAction(AActor* Instigator,bool bEmergency);
 	UFUNCTION(BlueprintNativeEvent, Category = "Action")
 	bool CanStart(AActor* Instigator);
 	virtual UWorld* GetWorld() const override;
 	bool IsRunning()const;
 	UMAction();
+	virtual bool IsSupportedForNetworking() const override
+	{
+		return true;
+	}
 };
