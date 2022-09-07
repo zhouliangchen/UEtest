@@ -6,11 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "MAttributeComponent.generated.h"
 
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChangedSignature, AActor*, InstigatorActor, UMAttributeComponent*, OwningComp, float, NewHealth, float, Delta);
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnEnergyChangedSignature, AActor*, InstigatorActor, UMAttributeComponent*, OwningComp, float, NewEnergy, float, Delta);
-//由于Event Signature参数一致，可以进行复用
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnAttributeChangedSignature, AActor*, InstigatorActor, UMAttributeComponent*, OwningComp, float, NewValue, float, Delta);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAttributeReplicatedSignature, UMAttributeComponent*, OwningComp, float, NewValue);
 DECLARE_DELEGATE_TwoParams(FOnActorKilledSignature, AActor*, AActor*);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -27,11 +24,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	static bool IsActorAlive(AActor* Actor);
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, Category = "Attributes")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, ReplicatedUsing="OnRep_Health", Category = "Attributes")
 	float Health;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, Category = "Attributes")
 	float HealthMax;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, Category = "Attributes")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, ReplicatedUsing="OnRep_Energy", Category = "Attributes")
 	float Energy;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated, Category = "Attributes")
 	float EnergyMax;
@@ -42,7 +39,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attributes")
 	float AttackConvertionRate;
 
-	UFUNCTION(NetMulticast, Reliable)
+	UFUNCTION(NetMulticast, Unreliable)
 	void MulticastHealthChanged(AActor* InstigatorActor, float NewHealth, float Delta);
 	UFUNCTION(NetMulticast, Unreliable)
 	void MulticastEnergyChanged(AActor* InstigatorActor, float NewEnergy, float Delta);
@@ -51,8 +48,15 @@ public:
 	FOnAttributeChangedSignature OnHealthChanged;
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnAttributeChangedSignature OnEnergyChanged;
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnAttributeReplicatedSignature OnHealthReplicated;
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnAttributeReplicatedSignature OnEnergyReplicated;
 	FOnActorKilledSignature OnActorKilled;
-
+	UFUNCTION()
+	void OnRep_Health();
+	UFUNCTION()
+	void OnRep_Energy();
 	// Called every frame
 	//virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
@@ -68,7 +72,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	bool IsFullHealth()const;
 	float GetHealthMax()const;
-
+	void SetHealthBeforeReplicate(float NewHealth);
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	bool Kill(AActor* InstigatorActor);
 };

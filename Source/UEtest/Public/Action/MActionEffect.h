@@ -18,6 +18,8 @@ public:
 	virtual void StartAction_Implementation(AActor* Instigator) override;
 	virtual void StopAction_Implementation(AActor* Instigator, bool bEmergency) override;
 	virtual void ReStartEffect(AActor* Instigator);
+	UFUNCTION(BlueprintCallable, Category = "Action")
+	float GetRemainingTime()const;
 	UMActionEffect();
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect")

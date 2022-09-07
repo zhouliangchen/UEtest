@@ -40,11 +40,13 @@ protected:
 	UFUNCTION()
 	virtual void ProjectileHit(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1,
 				   FVector Vector, const FHitResult& HitResult);
-
+	//默认实现：在目标点生成粒子效果并析构自己
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void Explode();
-	//默认实现：在目标点生成粒子效果并析构自己
-	virtual void Explode_Implementation();
+	//原子变量，起锁的作用，防止多次调用explode（必须在类声明并初始化，否则报错）(多人模式Client会由本地和RPC调用，只响应其中任一，以保证视觉的流畅与体验的稳定）
+	std::atomic_flag bActive = ATOMIC_FLAG_INIT;
+	UFUNCTION(NetMulticast, Unreliable)
+	void MulticastExplode();
 	virtual void PostInitializeComponents() override;
 public:	
 

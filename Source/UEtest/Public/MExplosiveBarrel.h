@@ -24,6 +24,8 @@ protected:
 	UStaticMeshComponent* StaticMeshComp;
 	UPROPERTY(VisibleAnywhere)
 	URadialForceComponent* RadialForceComp;
+	UFUNCTION(NetMulticast, Unreliable)
+	void MulticastExploded();
 
 	UFUNCTION()
 	void OnCompHit(UPrimitiveComponent* PrimitiveComponent, AActor* Actor, UPrimitiveComponent* PrimitiveComponent1,

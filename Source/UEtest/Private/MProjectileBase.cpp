@@ -2,12 +2,14 @@
 
 
 #include "MProjectileBase.h"
+
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Sound/SoundCue.h"
+
 
 // Sets default values
 AMProjectileBase::AMProjectileBase()
@@ -30,7 +32,10 @@ AMProjectileBase::AMProjectileBase()
 
 	//SetReplicates(true);
 	bReplicates = true;
+	//SetReplicatingMovement(true);
 }
+
+
 
 void AMProjectileBase::PostInitializeComponents()
 {
@@ -43,17 +48,24 @@ void AMProjectileBase::ProjectileHit(UPrimitiveComponent* HitComp, AActor* Other
 	UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& HitResult)
 {
 	UE_LOG(LogTemp, Log, TEXT("%s hit %s"), *GetNameSafe(this), *GetNameSafe(OtherActor));
-	Explode();
+	MulticastExplode();
 }
 
 void AMProjectileBase::Explode_Implementation()
 {
-	if(ensure(IsValid(this)))
+	if(!bActive.test_and_set())
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(this, ImpactVFX, GetActorLocation(), GetActorRotation());
 		UGameplayStatics::SpawnSoundAtLocation(this, ImpactSound, GetActorLocation(), GetActorRotation());
 		UGameplayStatics::PlayWorldCameraShake(this, Shake, GetActorLocation(), 200.0f, 2000.0f);
-		Destroy();
+		SetLifeSpan(3.0f);
+		MovementComp->StopMovementImmediately();
+		AudioComp->Stop();
+		SetActorEnableCollision(false);
+		SetActorHiddenInGame(true);
 	}
 }
-
+void AMProjectileBase::MulticastExplode_Implementation()
+{
+	Explode();
+}

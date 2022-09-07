@@ -24,7 +24,7 @@ void AMMagicProjectile::DealDamage(UPrimitiveComponent* PrimitiveComponent, AAct
     if(OtherActor&&OtherActor!=GetInstigator())
     {
 		UMActionComponent* ActionComp = Cast<UMActionComponent>(OtherActor->GetComponentByClass(UMActionComponent::StaticClass()));
-		if (!bReflected/* && HasAuthority()*/)
+		if (!bReflected )
 	    {
 		    if (ActionComp && ActionComp->ActiveGameplayTags.HasTag(ParryTag))
 		    {
@@ -37,8 +37,8 @@ void AMMagicProjectile::DealDamage(UPrimitiveComponent* PrimitiveComponent, AAct
         if(UMGamePlayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, Damage, HitResult))
         {
             UE_LOG(LogTemp, Log, TEXT("%s damage %s"), *GetNameSafe(GetInstigator()), *GetNameSafe(OtherActor));
-            Explode();
-			if (HasAuthority() && ActionComp && ActionComp->bAlive)
+			MulticastExplode();
+			if (HasAuthority() && ActionComp && ActionComp->bActive)
 			{
 				ActionComp->AddAction(BurningActionEffect, GetInstigator());
 			}

@@ -25,6 +25,8 @@ AMExplosiveBarrel::AMExplosiveBarrel()
 	RadialForceComp->SetAutoActivate(false);//如果不关，那么一开始就会有径向力激活，下落很慢
 	RadialForceComp->AddCollisionChannelToAffect(ECC_WorldDynamic);
 	//StaticMeshComp->OnComponentHit.AddUniqueDynamic(this, &AMExplosiveBarrel::OnCompHit);
+	bReplicates = true;
+	SetReplicatingMovement(true);
 }
 
 // Called when the game starts or when spawned
@@ -40,6 +42,11 @@ void AMExplosiveBarrel::PostInitializeComponents()
 	StaticMeshComp->OnComponentHit.AddUniqueDynamic(this, &AMExplosiveBarrel::OnCompHit);
 }
 
+void AMExplosiveBarrel::MulticastExploded_Implementation()
+{
+	RadialForceComp->FireImpulse();
+}
+
 void AMExplosiveBarrel::OnCompHit(UPrimitiveComponent* PrimitiveComponent, AActor* OtherActor,
                                   UPrimitiveComponent* OtherComp, FVector Vector, const FHitResult& HitResult)
 {
@@ -48,7 +55,10 @@ void AMExplosiveBarrel::OnCompHit(UPrimitiveComponent* PrimitiveComponent, AActo
 		AttributeComp->ApplyHealthChange(this, -50.0f);
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Cyan, GetNameSafe(OtherActor)+" "+GetNameSafe(OtherComp) + " Cause Boom!");
-	RadialForceComp->FireImpulse();
+	if(HasAuthority())
+	{
+		MulticastExploded();
+	}
 }
 
 // Called every frame

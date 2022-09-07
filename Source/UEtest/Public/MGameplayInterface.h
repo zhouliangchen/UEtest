@@ -25,4 +25,7 @@ class UETEST_API IMGameplayInterface
 public:
 	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
 	void Interact(APawn* InstigatorPawn);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void OnActorLoaded();
 };

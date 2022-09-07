@@ -21,13 +21,15 @@ public:
 	AMPickupItemBase();
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
 
-	UPROPERTY(EditAnywhere, Category = "Gameplay")
+	UPROPERTY(EditDefaultsOnly, Category = "Pickups")
 	float SpawnHeight;
 protected:
 	FTimerHandle CoolDownTimer;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Pickups")
 	float CoolDownTime;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
+	UPROPERTY(EditDefaultsOnly, Category = "Pickups")
 	UEnvQuery* SpawnItemsQuery;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
@@ -35,7 +37,10 @@ protected:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool DoSthtoPawn(APawn* InstigatorPawn);
-
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing="OnRep_Active", Category="Pickups")
+	bool bActive;
+	UFUNCTION()
+	void OnRep_Active();
 	virtual bool DoSthtoPawn_Implementation(APawn* InstigatorPawn);
 	virtual void BeginPlay() override;
 	void ReadyForSpawn();

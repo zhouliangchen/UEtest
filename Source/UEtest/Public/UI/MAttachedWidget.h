@@ -17,7 +17,7 @@ class UETEST_API UMAttachedWidget : public UUserWidget
 protected:
 	UPROPERTY(meta = (BindWidget))
 	USizeBox* ParentSizeBox;
-	UPROPERTY(EditAnywhere, Category = "UI")
+	UPROPERTY(EditAnywhere, Interp, Category = "UI")
 	FVector Offset;
 public:
 	UMAttachedWidget();

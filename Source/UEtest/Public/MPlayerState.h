@@ -6,7 +6,8 @@
 #include "GameFramework/PlayerState.h"
 #include "MPlayerState.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCreditsChangedSignature, float, NewCredits);
+class UMSaveGame;
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCreditsReplicatedSignature, float, NewCredits);
 /**
  * 
  */
@@ -18,10 +19,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Gameplay")
 	bool UpdatePlayerCredits(float Delta);
 	UPROPERTY(BlueprintAssignable, Category = "Events")
-	FOnCreditsChangedSignature OnCreditsChanged;
+	FOnCreditsReplicatedSignature OnCreditsReplicated;
 	AMPlayerState();
-	
+	UFUNCTION(BlueprintNativeEvent,Category="SaveGame")
+	void SavePlayerState(UMSaveGame* SaveGame);
+	UFUNCTION(BlueprintNativeEvent, Category = "SaveGame")
+	void LoadPlayerState(UMSaveGame* SaveGame);
 protected:
-	UPROPERTY(EditAnywhere, Category = "Gameplay")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, ReplicatedUsing = "OnRep_Credits", Category = "Gameplay")
 	float Credits;
+	UFUNCTION()
+	void OnRep_Credits();
 };

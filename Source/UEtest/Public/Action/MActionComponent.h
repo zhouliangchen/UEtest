@@ -7,6 +7,9 @@
 #include "Components/ActorComponent.h"
 #include "MActionComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnActionStartedSignature, UMActionComponent*, ActionComp, UMAction*, Action);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnActionStoppedSignature, UMActionComponent*, ActionComp, UMAction*, Action, UUserWidget*, WidgetInstance);
+
 class UMActionEffect;
 class UMAction;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -52,12 +55,17 @@ protected:
 	void ServerStartAction(AActor* Instigator, FName ActionName);
 	UFUNCTION(Server, Reliable)
 	void ServerStopAction(AActor* Instigator, FName ActionName);
-public:	
+
+public:
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnActionStartedSignature OnActionStarted;
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnActionStoppedSignature OnActionStopped;
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	//在死亡后应停止所有Action，但由Comp主动停止所有Action会有难以解决的bug，所以设标志让Action来检测有效性
 	//如，被Burn Effect烧死后，会首先激活StopAllAction，再继续StopAction，产生重复
 	//再如被子弹打死后，仍会触发Burn
-	bool bAlive;
+	bool bActive;
 		
 };

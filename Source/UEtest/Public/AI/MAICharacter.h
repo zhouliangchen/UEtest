@@ -24,7 +24,7 @@ public:
 
 // Sets default values for this character's properties
 	AMAICharacter();
-	static int GetBotNum();
+	//static int GetBotNum();
 protected:
 	
 	UPROPERTY(VisibleAnywhere, Category = "Components")
@@ -60,12 +60,19 @@ protected:
 
 	UFUNCTION()
 	void OnSeePawn(APawn* Pawn);
+
+	UFUNCTION(NetMulticast, Unreliable)
+	void MulticastSpot();
+
+	bool SetTargetActor(AActor* TargetActor);
 	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, UMAttributeComponent* OwningComp, float NewHealth, float Delta);
-	bool SetTargetActor(AActor* TargetActor);
+	UFUNCTION()
+	void OnHealthReplicated(UMAttributeComponent* OwningComp, float NewHealth);
 	virtual void PostInitializeComponents()override;
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 private:
-	inline static int ExistBotNum = 0;
+	//使用静态成员变量，在多人游戏中表现异常，初步判断其可在server和client间双向同步，目前改为使用GameMode
+	//inline static int ExistBotNum = 0;
 };

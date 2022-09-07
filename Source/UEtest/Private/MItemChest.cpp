@@ -2,6 +2,8 @@
 
 
 #include "MItemChest.h"
+
+#include "UEtestGameModeBase.h"
 #include "Net/UnrealNetwork.h"
 
 // Sets default values
@@ -23,6 +25,11 @@ void AMItemChest::Interact_Implementation(APawn* InstigatorPawn)
 	OnRep_LidOpened();
 }
 
+void AMItemChest::OnActorLoaded_Implementation()
+{
+	OnRep_LidOpened();
+}
+
 void AMItemChest::OnRep_LidOpened()
 {
 	LidMesh->SetRelativeRotation(FRotator(bLidOpened ? RotationPitch : 0.0f, 0, 0));
@@ -37,11 +44,15 @@ void AMItemChest::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 }
 
 
+void AMItemChest::BeginPlay()
+{
+	Super::BeginPlay();
+	//OnRep_LidOpened();
+}
 
 // Called every frame
 void AMItemChest::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 

@@ -7,6 +7,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "UEtestGameModeBase.generated.h"
 
+class UMSaveGame;
 class AMPickupItemBase;
 class AMAICharacter;
 class UEnvQueryInstanceBlueprintWrapper;
@@ -26,13 +27,22 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
 	double MinSpawnDist;
 	AUEtestGameModeBase();
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 	virtual void StartPlay() override;
+	UFUNCTION(BlueprintCallable,Category="SaveGame")
+	void WriteSaveGame();
+	void LoadSaveGame();
+	virtual void HandleStartingNewPlayer_Implementation(APlayerController* NewPlayer)override;
 	UFUNCTION(Exec)
 	void killAllEnemies();
 
 	virtual void OnPlayerKilled(AActor* VictimActor, AActor* InstigatorActor);
 	virtual void OnMinionKilled(AActor* VictimActor, AActor* InstigatorActor);
+	//记录当前AI数量
+	int ExistBotNum;
 protected:
+	//是否读取存档
+	bool IsContinue;
 	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
 	TArray<TSubclassOf<AMPickupItemBase>> PickupItemClasses;
 	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
@@ -69,4 +79,9 @@ protected:
 	void SpawnBot_Delay();
 	void OnPlayerKilled_Delay(AController* Controller);
 
+	virtual void Tick(float DeltaSeconds) override;
+	UPROPERTY(VisibleAnywhere,Category="SaveGame")
+	FString SaveSlotName;
+	UPROPERTY()
+	UMSaveGame* SaveGame;
 };

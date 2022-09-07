@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "MCharacter.generated.h"
 
+class UMAttachedWidget;
 class USpringArmComponent;
 class UCameraComponent;
 class UMInteractComponent;
@@ -21,7 +22,7 @@ protected:
 
 	//为了更好地实现HitFlash判定逻辑
 	//更新MAttributeComponent后已不再需要，可考虑弃用，目前仅作debug用途
-	bool bIsAlive;
+	//bool bIsAlive;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	FName HitTimeParam;
@@ -35,6 +36,10 @@ public:
 	
 	UFUNCTION(Exec)
 	bool HealSelf(float HealAmount = 0.0f);
+
+	//在ListenServer上，Spawn Player时，触发beginPlay，而后再被Possessed，因此需要额外的函数辅助判断是否为本地控制角色
+	void OnServerPlayerSpawned();
+	
 protected:
 
 	UPROPERTY(VisibleAnywhere)
@@ -52,6 +57,11 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UMActionComponent* ActionComp;
 
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<UMAttachedWidget> HealthBarWidgetClass;
+
+	UPROPERTY()
+	UMAttachedWidget* HealthBarWidgetInstance;
 	void MoveForward(float X);
 	void MoveRight(float X);
 	void PrimaryAttack();
@@ -62,6 +72,8 @@ protected:
 	void Parry();
 	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, UMAttributeComponent* OwningComp, float NewHealth, float Delta);
+	UFUNCTION()
+	void OnHealthReplicated(UMAttributeComponent* OwningComp, float NewHealth);
 	virtual void PostInitializeComponents() override;
-
+	virtual void BeginPlay() override;
 };
