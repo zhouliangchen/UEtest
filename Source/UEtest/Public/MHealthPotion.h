@@ -15,6 +15,7 @@ class UETEST_API AMHealthPotion : public AMPickupItemBase
 	GENERATED_BODY()
 public:
 	AMHealthPotion();
+	virtual void GetInteractText_Implementation(APawn* InstigatorPawn, FText& Message, FText& AdditionalMessage) override;
 protected:
 	UPROPERTY(EditAnywhere)
 	float PowerUpNumber;

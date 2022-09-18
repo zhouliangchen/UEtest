@@ -6,12 +6,14 @@
 #include "UObject/Interface.h"
 #include "MGameplayInterface.generated.h"
 
+
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class UMGameplayInterface : public UInterface
 {
 	GENERATED_BODY()
 };
+
 
 /**
  * 
@@ -28,4 +30,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent)
 	void OnActorLoaded();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void GetInteractText(APawn* InstigatorPawn, FText& Message, FText& AdditionalMessage);
 };

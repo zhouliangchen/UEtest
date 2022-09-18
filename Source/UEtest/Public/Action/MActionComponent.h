@@ -46,6 +46,7 @@ protected:
 	//游戏开始时，默认的初始可用Action
 	UPROPERTY(EditDefaultsOnly, Category = "Action")
 	TArray<TSubclassOf<UMAction>> DefaultActions;
+	
 	//可用Action
 	UPROPERTY(BlueprintReadOnly, Replicated)
 	TArray<UMAction*> Actions;

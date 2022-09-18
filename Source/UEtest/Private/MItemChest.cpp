@@ -30,6 +30,11 @@ void AMItemChest::OnActorLoaded_Implementation()
 	OnRep_LidOpened();
 }
 
+void AMItemChest::GetInteractText_Implementation(APawn* InstigatorPawn, FText& Message, FText& AdditionalMessage)
+{
+	Message = AdditionalMessage = FText::GetEmpty();
+}
+
 void AMItemChest::OnRep_LidOpened()
 {
 	LidMesh->SetRelativeRotation(FRotator(bLidOpened ? RotationPitch : 0.0f, 0, 0));

@@ -21,6 +21,8 @@ public:
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
 
 	virtual void OnActorLoaded_Implementation() override;
+
+	virtual void GetInteractText_Implementation(APawn* InstigatorPawn, FText& Message, FText& AdditionalMessage) override;
 	//已在generated headfile中声明
 	//virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 protected:

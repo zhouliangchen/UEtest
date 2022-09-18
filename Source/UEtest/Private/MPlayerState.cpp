@@ -39,6 +39,11 @@ bool AMPlayerState::UpdatePlayerCredits(float Delta)
 	return false;
 }
 
+float AMPlayerState::GetPlayerCredits() const
+{
+	return Credits;
+}
+
 void AMPlayerState::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);

@@ -18,6 +18,8 @@ class UETEST_API AMPlayerState : public APlayerState
 public:
 	UFUNCTION(BlueprintCallable, Category = "Gameplay")
 	bool UpdatePlayerCredits(float Delta);
+	UFUNCTION(BlueprintCallable, Category = "Gameplay")
+	float GetPlayerCredits()const;
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FOnCreditsReplicatedSignature OnCreditsReplicated;
 	AMPlayerState();

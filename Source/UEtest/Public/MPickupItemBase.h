@@ -20,7 +20,7 @@ public:
 	// Sets default values for this actor's properties
 	AMPickupItemBase();
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
-
+	virtual void GetInteractText_Implementation(APawn* InstigatorPawn, FText& Message, FText& AdditionalMessage)override;
 	UPROPERTY(EditDefaultsOnly, Category = "Pickups")
 	float SpawnHeight;
 protected:
